@@ -17,18 +17,29 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           architecture: x64
+          cache: maven
 
       - name: Install Linter
-        ##TODO
+        run: echo "Checkstyle is configured through Maven"
 
       - name: Run Checkstyle
-        ##TODO
+        run: mvn checkstyle:checkstyle
+        continue-on-error: true
+
 
       - name: Upload Checkstyle Result
-        ##TODO
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-result
+          path: target/checkstyle.xml
+          if-no-files-found: warn
 
       - name: Run Maven Test
-        ##TODO
+        run: mvn clean verify
 
       - name: Jacoco Report
-        ##TODO
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/jacoco.xml
+          if-no-files-found: warn
